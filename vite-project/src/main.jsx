@@ -1,14 +1,17 @@
 import { BrowserRouter } from "react-router-dom"
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Header } from './header'
-import { Body } from './body'
 import "./index.css"
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom/client'
+import { Principal } from "./principal"
+import { InicioSesion } from "./login"
+import { Registro } from "./register"
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
 root.render(
     <>
-        <Header />
-        <Body />
+        <Principal />
     </>
 )
