@@ -1,8 +1,8 @@
-import { Header } from "./header"
 import { Body } from "./body"
 import { InicioSesion } from "./login"
 import { Registro } from "./register"
 import { useState } from "react"
+import { Preloader } from "./preloader"
 
 export function Principal() {
 
@@ -10,13 +10,9 @@ export function Principal() {
 
     return (
         <>
-            {currentPath === '/' && < Header />}
-            {currentPath === '/Body' && < Body />}
+            {currentPath === '/' && < Body />}
             {currentPath === '/Login' && < InicioSesion />}
             {currentPath === '/Register' && < Registro />}
         </>
     )
 }
-
-
-
