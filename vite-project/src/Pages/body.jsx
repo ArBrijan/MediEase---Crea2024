@@ -1,5 +1,3 @@
-import banner from './imgs/banner1.jpg';
-import logo from './imgs/logo.png';
 
 export function Body() {
     return (
@@ -16,12 +14,12 @@ export function Body() {
                             <a href="/Register">NewButton</a>
                         </button>
                     </div>
-                    <img className="w-32" src="./src/imgs/logo.png" alt="MediEase" />
+                    <img className="w-32" src="./src/assets/logo.png" alt="MediEase" />
                 </div>
             </header>
 
             <div className="relative h-[427px] flex items-center justify-center ">{/*Div del banner  */}
-                <img className="opacity-50 h-[427px] w-screen" src={banner} alt="Banner" />
+                <img className="opacity-50 h-[427px] w-screen" src="./src/assets/banner1.jpg" alt="Banner" />
                 <p className="absolute text-6xl text-black-600">¡Tu salud al alcance de un código!</p>
             </div><br />
             <div className="h-[205px] w-[175vh] m-auto grid grid-cols-2 place-items-center">{/* Div del Primer bloque*/}
