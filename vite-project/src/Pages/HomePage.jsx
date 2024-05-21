@@ -12,7 +12,7 @@ export function Home(){
             <a href="/Login" className="text-white m-5 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>Login</a>
             <a href="/Register" className="text-white m-5 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>Register</a>
             </div>
-            <button className="text-white w-[275px] h-[53px] m-2 mt-20" style={{backgroundColor: "#1E1E1E"}}>¿Que estás buscando?</button>
+            <a href="/Info" className="text-white m-5 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>¿Que estás buscando?</a>
         </div>
         </div>
         </>
