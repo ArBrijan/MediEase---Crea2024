@@ -11,8 +11,8 @@ export function Home(){
             <div><br />
             <a href="/Login" className="text-white m-5 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>Login</a>
             <a href="/Register" className="text-white m-5 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>Register</a>
-            </div>
-            <a href="/Info" className="text-white m-5 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>¿Que estás buscando?</a>
+            </div><br/>
+            <a href="/Info" className="text-white m-8 text-center" style={{backgroundColor: "#1E1E1E", padding: "15px 40px 15px 40px"}}>¿Que estás buscando?</a>
         </div>
         </div>
         </>
