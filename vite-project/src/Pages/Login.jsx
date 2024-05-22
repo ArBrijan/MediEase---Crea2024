@@ -5,7 +5,7 @@ export function Login(){
         <nav className=" flex items-center p-[30px] absolute top-0 left-0">
             <img className="w-[190px]  " src="./src/assets/newLogo.png" alt="LogoEmpresa" />
         </nav>
-        <a style={{backgroundColor: "#1E1E1E"}} className="text-white absolute left-[90%] top-[6%] p-[15px] " href="/Home">Regresar</a>
+        <a style={{backgroundColor: "#1E1E1E"}} className="text-white absolute left-[90%] top-[6%] p-[15px] rounded-lg" href="/Home">Regresar</a>
         <div className=" w-[500px] h-[500px] border">
             <img src="./src/assets/pills.png" alt="Imagen" />
         </div>
@@ -14,7 +14,8 @@ export function Login(){
             <input className="border p-2" type="text" placeholder="Correo" required/><br />
             <input className="border p-2" type="text" placeholder="Contraseña" required/><br />
             <label htmlFor=""><a href="/Register">¿No tienes una cuenta?</a></label><br /><br />
-            <button style={{backgroundColor: "#1E1E1E"}} className="text-white w-[100px] h-[50px]">Log</button>
+            <button style={{backgroundColor: "#00D45C"}} className="text-white w-[100px] h-[50px] absolute righ-[65%] top-[63%]  rounded-lg">Registrarse</button>
+            <button style={{backgroundColor: "#0366FF"}} className="text-white w-[110px] h-[50px] absolute left-[65%] top-[63%] rounded-lg">Iniciar sesion</button>
         </div>
         </div>
         </>
