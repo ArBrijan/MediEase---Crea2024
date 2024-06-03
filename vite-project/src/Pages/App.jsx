@@ -4,6 +4,7 @@ import { Login } from "./Login"
 import { Register } from "./Register"
 import { Info } from "./Info"
 import DoctorCrud from "./DoctorCrud"
+import { Consul } from "./Consul"
 
 export function App(){
 
@@ -15,7 +16,8 @@ export function App(){
         {currentPath === '/Login' && <Login/>}
         {currentPath === '/Register' && <Register/>}
         {currentPath === '/Info' && <Info/>}
-        {currentPath === '/DoctorCrud' && <DoctorCrud/>}
+            {currentPath === '/DoctorCrud' && <DoctorCrud />}
+            {currentPath === '/Consul' && <Consul/>}
         </>      
     )
 }
