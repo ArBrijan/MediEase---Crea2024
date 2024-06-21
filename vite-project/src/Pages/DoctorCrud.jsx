@@ -1,39 +1,28 @@
+import DropdownDoctor, { DropdownCites } from "../Components/Dropdown";
+import { useState } from "react";
+
 function DoctorCrud() {
+
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [openDropdownCites, setOpenDropdownCites] = useState(false);
+
   return (
     <div className="h-screen bg-violet-200 flex flex-row">
       <div className="w-1/4 h-screen bg-slate-800 text-white flex flex-col items-center">
-        <img className="w-3/6 m-5" src="../src/assets/NewLogo.png" alt="Logo" />
-        <span className="m-1">Acciones</span>
-        <ul className="w-full pr-1">
-
-          <li className="overflow-hidden">
-            <div className="bg-slate-700 rounded p-2 hover:bg-slate600">
-              <a href="#">Gestion de pacientes</a>
-            </div>
-
-            <ul className="h-0">
-              <li className="ml-16 mt-2 bg-slate-700 rounded p-1 hover:bg-slate-600">Xample1</li>
-              <li className="ml-16 mt-1 bg-slate-700 rounded p-1 hover:bg-slate-600">Xample2</li>
-              <li className="ml-16 mt-1 bg-slate-700 rounded p-1 hover:bg-slate-600">Xample3</li>
-            </ul>
-
-          </li>
-
-          <li className="overflow-hidden">
-            <div className="bg-slate-700 rounded p-2 hover:bg-slate600">
-              <a href="#">Gestion de Citas</a>
-            </div>
-
-            <ul className="h-0">
-              <li className="ml-16 mt-2 bg-slate-700 rounded p-1 hover:bg-slate-600">Xample4</li>
-              <li className="ml-16 mt-1 bg-slate-700 rounded p-1 hover:bg-slate-600">Xample5</li>
-              <li className="ml-16 mt-1 bg-slate-700 rounded p-1 hover:bg-slate-600">Xample6</li>
-            </ul>
-
-          </li>
-
-        </ul>
+        <img className="w-3/6 m-5 bg-white" src="../src/assets/NewLogo.png" alt="Logo" />
+          <div className="w-full flex flex-col">
+            <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdown((prev) => !prev)}>Gestion de pacientes</span>
+            {
+              openDropdown && <DropdownDoctor />
+            }
+            <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdownCites((prev) => !prev)}>Gestion de citas</span>
+            {
+              openDropdownCites && <DropdownCites />
+            }
+          </div>
       </div>
+
+
 
       <div className="basis-3/4 px-10">
         <div className="flex items-center justify-between py-4  w-full">

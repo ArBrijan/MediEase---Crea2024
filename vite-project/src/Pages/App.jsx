@@ -4,6 +4,7 @@ import { Home } from "./HomePage";
 import { Register } from "./Register";
 import DoctorCrud from "./DoctorCrud";
 import Pruebas from "./Pruebas";
+import DropdownDoctor from "../Components/Dropdown";
 
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     {
         path: 'Pruebas',
         element: <Pruebas />
+    },
+    {
+        path: 'DropdownDoctor',
+        element: <DropdownDoctor />
     }
 ]);
 
