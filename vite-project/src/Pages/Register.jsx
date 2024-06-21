@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Register() {
   return (
     <>
@@ -12,13 +14,11 @@ export function Register() {
             alt="LogoEmpresa"
           />
 
-          <a
-            style={{ backgroundColor: "#1E1E1E" }}
-            className="text-white left-[670%] top-[15%] p-[15px] rounded-lg"
-            href="/Home"
-          >
-            Regresar
-          </a>
+          <Link to="/" className="text-white bg-black p-3 rounded">
+          Regresar
+          </Link>
+
+
         </div>
         <div className=" w-[500px] h-[500px] border">
           <img className="w-[500px] h-[495px]"  src="./src/assets/pills.png" alt="Imagen" />
