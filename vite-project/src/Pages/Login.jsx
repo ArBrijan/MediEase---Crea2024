@@ -13,7 +13,7 @@ export function Login() {
     axios.post("http://localhost:3001/login", { email, password })
     .then(result => {
       console.log(result.data);
-      if(result.data.message === "Succes") {
+      if(result.data.message === "Success") { // Corrige la palabra "Succes" a "Success"
         navigate('/UserPage');  
       } else {
         alert(result.data.message); 
@@ -26,26 +26,24 @@ export function Login() {
   };
 
   return (
-    <>
-      <div className="w-screen h-screen relative flex items-center justify-center">
-        <div
-          style={{ backgroundColor: "#EEF2F5" }}
-          className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full"
-        >
-          <img
-            className="w-[170px]  "
-            src="./src/assets/newLogo.png"
-            alt="LogoEmpresa"
-          />
+    <div className="w-screen h-screen relative flex items-center justify-center">
+      <div
+        style={{ backgroundColor: "#EEF2F5" }}
+        className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full"
+      >
+        <img
+          className="w-[170px]"
+          src="./src/assets/newLogo.png"
+          alt="LogoEmpresa"
+        />
 
-          <Link
-            to="/"
-            className="text-white left-[670%] top-[15%] p-[15px] rounded-lg bg-black"
-          >
-            Regresar
-          </Link>
-        </div>
-      </header>
+        <Link
+          to="/"
+          className="text-white p-[15px] rounded-lg bg-black"
+        >
+          Regresar
+        </Link>
+      </div>
 
       {/* Contenido principal */}
       <main className="flex flex-col md:flex-row justify-center items-center mt-24">
@@ -69,6 +67,7 @@ export function Login() {
               type="email"
               placeholder="Correo electrónico"
               required
+              value={email} // Añadir el valor actual del estado
               onChange={(e) => setEmail(e.target.value)}
             />
             <br />
@@ -77,16 +76,17 @@ export function Login() {
               type="password"
               placeholder="Contraseña"
               required
+              value={password} // Añadir el valor actual del estado
               onChange={(e) => setPassword(e.target.value)}
             />
             <br />
-            <label className="" htmlFor="">
+            <label>
               <Link to="/Register">¿No tienes una cuenta?</Link>
             </label>
             <br />
             <div className="flex justify-evenly text-white w-full">
               <button type="button" className="bg-black p-3 rounded w-32" onClick={() => navigate('/Register')}>
-                Registrate
+                Regístrate
               </button>
               <button type="submit" className="bg-black p-3 rounded w-32">
                 Iniciar sesión
@@ -99,4 +99,4 @@ export function Login() {
   );
 };
 
-export default Login; // Exporta el componente como exportación por defecto
+export default Login;
