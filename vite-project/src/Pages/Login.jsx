@@ -45,7 +45,12 @@ export function Login() {
             Regresar
           </Link>
         </div>
-        <div className=" w-[500px] h-[500px] border">
+      </header>
+
+      {/* Contenido principal */}
+      <main className="flex flex-col md:flex-row justify-center items-center mt-24">
+        {/* Imagen a la izquierda */}
+        <div className="w-0 md:w-1/2 md:mb-5 flex justify-center items-center">
           <img
             className="w-[500px] h-[495px]"
             src="./src/assets/pills.png"
@@ -89,7 +94,9 @@ export function Login() {
             </div>
           </form>
         </div>
-      </div>
-    </>
+      </main>
+    </div>
   );
-}
+};
+
+export default Login; // Exporta el componente como exportación por defecto
