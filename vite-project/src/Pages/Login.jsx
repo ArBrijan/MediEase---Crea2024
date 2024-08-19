@@ -1,4 +1,30 @@
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 export function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3001/login", { email, password })
+    .then(result => {
+      console.log(result.data);
+      if(result.data.message === "Succes") {
+        navigate('/UserPage');  
+      } else {
+        alert(result.data.message); 
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      alert("Error en el inicio de sesión");
+    });
+  };
+
   return (
     <>
       <div className="w-screen h-screen relative flex items-center justify-center">
@@ -12,53 +38,56 @@ export function Login() {
             alt="LogoEmpresa"
           />
 
-          <a
-            style={{ backgroundColor: "#1E1E1E" }}
-            className="text-white left-[670%] top-[15%] p-[15px] rounded-lg"
-            href="/Home"
+          <Link
+            to="/"
+            className="text-white left-[670%] top-[15%] p-[15px] rounded-lg bg-black"
           >
             Regresar
-          </a>
+          </Link>
         </div>
         <div className=" w-[500px] h-[500px] border">
           <img
-            className="w-[500px] h-[495px]" src="./src/assets/pills.png" alt="Imagen"
+            className="w-[500px] h-[495px]"
+            src="./src/assets/pills.png"
+            alt="Imagen"
           />
         </div>
         <div className="w-[500px] h-[500px] p-5 border flex flex-col justify-center">
-          <h1 className="text-3xl font-medium">Inicia sesión</h1>
-          <br />
-          <input
-            className="border p-2"
-            type="text"
-            placeholder="Correo"
-            required
-          />
-          <br />
-          <input
-            className="border p-2"
-            type="text"
-            placeholder="Contraseña"
-            required
-          />
-          <br />
-          <label htmlFor="">
-            <a href="/Register">¿No tienes una cuenta?</a>
-          </label>
-          <br />
-          <br />
-          <button
-            style={{ backgroundColor: "#00D45C" }}
-            className="text-white w-[100px] h-[50px] absolute righ-[65%] top-[63%]  rounded-lg "
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col items-center"
           >
-            <a href="/registrer">Registrarse</a>
-          </button>
-          <button
-            style={{ backgroundColor: "#0366FF" }}
-            className="text-white w-[110px] h-[50px] absolute left-[65%] top-[63%] rounded-lg"
-          >
-            Iniciar sesion
-          </button>
+            <h1 className="text-3xl font-medium">Inicia sesión</h1>
+            <br />
+            <input
+              className="border p-2"
+              type="email"
+              placeholder="Correo electrónico"
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <br />
+            <input
+              className="border p-2"
+              type="password"
+              placeholder="Contraseña"
+              required
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <br />
+            <label className="" htmlFor="">
+              <Link to="/Register">¿No tienes una cuenta?</Link>
+            </label>
+            <br />
+            <div className="flex justify-evenly text-white w-full">
+              <button type="button" className="bg-black p-3 rounded w-32" onClick={() => navigate('/Register')}>
+                Registrate
+              </button>
+              <button type="submit" className="bg-black p-3 rounded w-32">
+                Iniciar sesión
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </>

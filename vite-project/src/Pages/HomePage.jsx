@@ -5,7 +5,6 @@ export function Home() {
     <>
       <div className="w-screen h-screen flex flex-col justify-center relative">
         <div
-          style={{ backgroundColor: "#EEF2F5" }}
           className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full"
         >
           <img
@@ -14,7 +13,7 @@ export function Home() {
             alt="LogoEmpresa"
           />
         </div>
-        <div className=" flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center">
           <h1 className="text-7xl w-[600px] text-center font-medium m-5">
             Tu salud está garantizada!
           </h1>
@@ -22,42 +21,29 @@ export function Home() {
             Inicia sesión o si no tienes, regístrate para que puedas acceder a
             tu historial de consultas.
           </p>
-          <div>
+          <div className="flex flex-row">
             <br />
-
-            
-            <Link to="Register" className="text-white m-5 text-center rounded-lg bg-green-500 p-4">
-            Register
-            </Link>
-          
-
-            <a
-              href="/Login"
-              className="text-white m-5 text-center rounded-lg"
-              style={{
-                backgroundColor: "#0336FF",
-                padding: "15px 40px 15px 40px",
-              }}
+            <Link
+              className="bg-black text-white p-3 rounded w-28 text-center mb-1 mr-1"
+              to="Register"
             >
-              Iniciar sesion
-            </a>
+              Registro
+            </Link>
 
+            <Link
+              className="bg-black text-white p-3 rounded w-28 text-center mb-1 ml-1"
+              to="Login"
+            >
+              Login
+            </Link>
           </div>
 
-          <a
-            href="/Info"
-            className="text-white m-5 text-center rounded-lg"
-            style={{
-              backgroundColor: "#0336FF",
-              padding: "15px 40px 15px 40px",
-            }}
-          >
+          <Link className="bg-black text-white text-center p-3 rounded m-1 w-[232px]"
+            to="Info">
             ¿Que estás buscando?
-          </a>
-
+          </Link>
         </div>
       </div>
     </>
-   
   );
 }
