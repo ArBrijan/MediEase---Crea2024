@@ -1,48 +1,66 @@
 import DropdownDoctor, { DropdownCites } from "../Components/Dropdown";
 import { useState, useEffect } from "react";
+import axios from 'axios';
 
 function DoctorCrud() {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [openDropdownCites, setOpenDropdownCites] = useState(false);
-  const [patients, setPatients] = useState([
-    {
-      id: 1,
-      name: "Brayan",
-      history: "Lorem ipsum dolor sit amet.",
-      medication: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, deleniti?",
-      age: 30,
-      phone: "123-456-7890",
-    },
-    {
-      id: 2,
-      name: "Emerson",
-      history: "Lorem ipsum dolor sit amet.",
-      medication: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, porro.",
-      age: 25,
-      phone: "987-654-3210",
-    },
-    {
-      id: 3,
-      name: "Livai",
-      history: "Lorem ipsum dolor sit amet.",
-      medication: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, porro.",
-      age: 35,
-      phone: "555-666-7777",
-    }
-  ]);
+  const [patients, setPatients] = useState([]);
+  const [appointments, setAppointments] = useState([]);
   const [editPatient, setEditPatient] = useState(null);
 
-  const handleAddPatient = (patient) => {
-    setPatients([...patients, { ...patient, id: patients.length + 1 }]);
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/patients');
+        setPatients(response.data);
+      } catch (err) {
+        console.error("Error al cargar los pacientes:", err);
+      }
+    };
+
+    fetchPatients();
+  }, []);
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/appointments?visibleToDoctors=true');
+        setAppointments(response.data);
+      } catch (err) {
+        console.error("Error al cargar las citas:", err);
+      }
+    };
+
+    fetchAppointments();
+  }, []);
+
+  const handleAddPatient = async (patient) => {
+    try {
+      const response = await axios.post('http://localhost:3001/patients', patient);
+      setPatients([...patients, response.data]);
+    } catch (err) {
+      console.error("Error al agregar paciente:", err);
+    }
   };
 
-  const handleEditPatient = (updatedPatient) => {
-    setPatients(patients.map(patient => patient.id === updatedPatient.id ? updatedPatient : patient));
-    setEditPatient(null);
+  const handleEditPatient = async (updatedPatient) => {
+    try {
+      const response = await axios.put(`http://localhost:3001/patients/${updatedPatient.id}`, updatedPatient);
+      setPatients(patients.map(patient => patient.id === updatedPatient.id ? response.data : patient));
+      setEditPatient(null);
+    } catch (err) {
+      console.error("Error al actualizar paciente:", err);
+    }
   };
 
-  const handleDeletePatient = (id) => {
-    setPatients(patients.filter(patient => patient.id !== id));
+  const handleDeletePatient = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3001/patients/${id}`);
+      setPatients(patients.filter(patient => patient.id !== id));
+    } catch (err) {
+      console.error("Error al eliminar paciente:", err);
+    }
   };
 
   return (
@@ -50,10 +68,10 @@ function DoctorCrud() {
       <div className="w-1/4 h-screen bg-slate-800 text-white flex flex-col items-center">
         <img className="w-3/6 m-5 bg-white" src="../src/assets/NewLogo.png" alt="Logo" />
         <div className="w-full flex flex-col">
-          <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdown((prev) => !prev)}>Gestion de pacientes</span>
+          <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdown((prev) => !prev)}>Gestión de pacientes</span>
           {openDropdown && <DropdownDoctor />}
-          <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdownCites((prev) => !prev)}>Gestion de citas</span>
-          {openDropdownCites && <DropdownCites />}
+          <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdownCites((prev) => !prev)}>Gestión de citas</span>
+          {openDropdownCites && <DropdownCites appointments={appointments} />}
         </div>
       </div>
 

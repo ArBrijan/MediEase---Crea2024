@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const UsersModel = require('./models/Users');
+const AppointmentModel = require('./models/appointments');
 const bcrypt = require('bcryptjs');
 
 const app = express();
@@ -59,6 +60,33 @@ app.post('/register', async (req, res) => {
         res.status(400).json({ error: "Bad Request", message: err.message });
     }
 });
+
+app.post('/appointments', async (req, res) => {
+    try {
+        const { name, date, location, visibleToDoctors } = req.body;
+        const newAppointment = new Appointment({
+            name,
+            date,
+            location,
+            status: 'Pending',
+            visibleToDoctors: visibleToDoctors !== undefined ? visibleToDoctors : true
+        });
+        await newAppointment.save();
+        res.status(201).json(newAppointment);
+    } catch (err) {
+        res.status(400).json({ error: 'Error al crear la cita' });
+    }
+});
+
+app.get('/appointments', async (req, res) => {
+    try {
+        const visibleToDoctors = req.query.visibleToDoctors === 'true';
+        const appointments = await Appointment.find({ visibleToDoctors });
+        res.json(appointments);
+    } catch (err) {
+        res.status(400).json({ error: 'Error al cargar las citas' });
+    }
+});    
 
 app.listen(3001, () => {
     console.log("Server is running on port 3001");

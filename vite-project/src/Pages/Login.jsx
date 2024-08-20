@@ -12,7 +12,6 @@ export function Login() {
     e.preventDefault();
     axios.post("http://localhost:3001/login", { email, password })
     .then(result => {
-      console.log(result.data);
       if(result.data.message === "Success") { // Corrige la palabra "Succes" a "Success"
         navigate('/UserPage');  
       } else {
@@ -24,7 +23,6 @@ export function Login() {
       alert("Error en el inicio de sesión");
     });
   };
-
   return (
     <div className="w-screen h-screen relative flex items-center justify-center">
       <div

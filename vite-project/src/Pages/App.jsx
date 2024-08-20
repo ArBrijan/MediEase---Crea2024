@@ -40,7 +40,7 @@
             element: <Info />
         },
         {
-            path: 'UsersPage',
+            path: 'UserPage',
             element: <UserPage />
         }
     ]);
