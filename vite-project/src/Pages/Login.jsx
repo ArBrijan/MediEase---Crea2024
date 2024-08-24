@@ -8,21 +8,31 @@ export function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/login", { email, password })
-    .then(result => {
-      if(result.data.message === "Success") { // Corrige la palabra "Succes" a "Success"
-        navigate('/UserPage');  
+
+    try {
+      const response = await axios.post("http://localhost:3001/login", {
+        email,
+        password,
+      });
+
+      console.log("Respuesta del servidor:", response.data);
+
+      // Guardar el userId en el local storage si el login fue exitoso
+      if (response.data.message === "Success") {
+        localStorage.setItem("userId", response.data.userId);
+        console.log("userId guardado en local storage:", response.data.userId);
+        navigate("/UserPage");
       } else {
-        alert(result.data.message); 
+        alert(response.data.message);
       }
-    })
-    .catch(err => {
-      console.log(err);
+    } catch (err) {
+      console.error("Error en el inicio de sesión:", err);
       alert("Error en el inicio de sesión");
-    });
+    }
   };
+
   return (
     <div className="w-screen h-screen relative flex items-center justify-center">
       <div
@@ -35,10 +45,7 @@ export function Login() {
           alt="LogoEmpresa"
         />
 
-        <Link
-          to="/"
-          className="text-white p-[15px] rounded-lg bg-black"
-        >
+        <Link to="/" className="text-white p-[15px] rounded-lg bg-black">
           Regresar
         </Link>
       </div>
@@ -54,10 +61,7 @@ export function Login() {
           />
         </div>
         <div className="w-[500px] h-[500px] p-5 border flex flex-col justify-center">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-center"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col items-center">
             <h1 className="text-3xl font-medium">Inicia sesión</h1>
             <br />
             <input
@@ -83,7 +87,11 @@ export function Login() {
             </label>
             <br />
             <div className="flex justify-evenly text-white w-full">
-              <button type="button" className="bg-black p-3 rounded w-32" onClick={() => navigate('/Register')}>
+              <button
+                type="button"
+                className="bg-black p-3 rounded w-32"
+                onClick={() => navigate("/Register")}
+              >
                 Regístrate
               </button>
               <button type="submit" className="bg-black p-3 rounded w-32">
@@ -95,6 +103,6 @@ export function Login() {
       </main>
     </div>
   );
-};
+}
 
 export default Login;

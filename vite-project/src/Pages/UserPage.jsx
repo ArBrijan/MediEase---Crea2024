@@ -1,5 +1,5 @@
-import { useState } from "react";
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export function UserPage() {
   const [appointments, setAppointments] = useState([]);
@@ -18,6 +18,7 @@ export function UserPage() {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedAppointment(null); // Reset selected appointment when closing the modal
   };
 
   const handleOpenDetails = (appointment) => {
@@ -29,21 +30,90 @@ export function UserPage() {
     setIsDetailsOpen(false);
   };
 
-  const handleScheduleAppointment = async (e) => {
-    e.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+  const handleEditAppointment = (appointment) => {
+    setAppointmentName(appointment.name);
+    setAppointmentDate(appointment.date.split(" ")[0]);
+    setAppointmentTime(appointment.date.split(" ")[1]);
+    setAppointmentLocation(appointment.location);
+    setSelectedAppointment(appointment);
+    setIsModalOpen(true);
+  };
 
-    const newAppointment = {
-        name: appointmentName,
-        date: `${appointmentDate} ${appointmentTime}`,
-        location: appointmentLocation,
+  const handleScheduleAppointment = async (e) => {
+    e.preventDefault();
+  
+    const updatedAppointment = {
+      name: appointmentName,
+      date: `${appointmentDate} ${appointmentTime}`,
+      location: appointmentLocation,
+      status: "pending",
+      userId: localStorage.getItem("userId"),
+    };
+  
+    try {
+      if (selectedAppointment) {
+        const response = await axios.put(
+          `http://localhost:3001/appointments/${selectedAppointment._id}`,
+          updatedAppointment
+        );
+        setAppointments(
+          appointments.map((appointment) =>
+            appointment._id === selectedAppointment._id
+              ? response.data
+              : appointment
+          )
+        );
+      } else {
+        const response = await axios.post(
+          "http://localhost:3001/appointments",
+          updatedAppointment
+        );
+        setAppointments([...appointments, response.data]);
+      }
+      handleCloseModal();
+    } catch (err) {
+      console.error("Error al agendar la cita:", err);
+      if (err.response) {
+        console.error("Detalles del error: ", err.response.data);
+      }
+      alert(
+        `Error al agendar la cita: ${
+          err.response?.data?.message || err.message
+        }`
+      );
+    }
+  };
+  
+
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (!userId) {
+          console.error("No se encontró Id en el local storage");
+          return;
+        }
+
+        const response = await axios.get(
+          `http://localhost:3001/appointments?userId=${userId}`
+        );
+        setAppointments(response.data);
+      } catch (err) {
+        console.error("Error al cargar las citas:", err);
+      }
     };
 
+    fetchAppointments();
+  }, []);
+
+  const handleDeleteAppointment = async (appointmentId) => {
     try {
-        const response = await axios.post('http://localhost:3001/appointments', newAppointment);
-        setAppointments([...appointments, response.data]);
-        handleCloseModal();
+      await axios.delete(`http://localhost:3001/appointments/${appointmentId}`);
+      setAppointments(
+        appointments.filter((appointment) => appointment._id !== appointmentId)
+      );
     } catch (err) {
-        console.error("Error al agendar la cita:", err);
+      console.error("Error al borrar la cita:", err);
     }
   };
 
@@ -52,8 +122,8 @@ export function UserPage() {
       <div className="w-1/4 h-screen bg-blue-800 text-white flex flex-col items-center">
         <img
           className="w-3/6 m-5 bg-white rounded-lg"
-          src="../src/assets/NewLogo.png"
-          alt="User Logo"
+          src="../src/assets/newLogo.png"
+          alt="Empresa logo"
         />
         <div className="w-full flex flex-col items-center">
           <h1 className="text-2xl font-bold mb-4">Administración</h1>
@@ -73,9 +143,12 @@ export function UserPage() {
                   &times;
                 </span>
                 <h2 className="text-xl text-black font-bold mb-4">
-                  Agendar cita
+                  {selectedAppointment ? "Editar cita" : "Agendar cita"}
                 </h2>
-                <form className="text-black flex flex-col" onSubmit={handleScheduleAppointment}>
+                <form
+                  className="text-black flex flex-col"
+                  onSubmit={handleScheduleAppointment}
+                >
                   <span className="p-2">Nombre de cita</span>
                   <input
                     type="text"
@@ -110,22 +183,21 @@ export function UserPage() {
                     onChange={(e) => setAppointmentLocation(e.target.value)}
                     required
                   />
-
-<br />
-                <div className="flex justify-around">
-                  <button
-                    className="bg-red-500 w-[100px] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
-                    onClick={handleCloseModal}
-                  >
-                    Cerrar
-                  </button>
-                  <button
-                    className="bg-green-500 w-[100px] text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
-                    type="submit"
-                  >
-                    Agendar
-                  </button>
-                </div>
+                  <br />
+                  <div className="flex justify-around">
+                    <button
+                      className="bg-red-500 w-[100px] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                      onClick={handleCloseModal}
+                    >
+                      Cerrar
+                    </button>
+                    <button
+                      className="bg-green-500 w-[100px] text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                      type="submit"
+                    >
+                      {selectedAppointment ? "Actualizar" : "Agendar"}
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
@@ -150,6 +222,7 @@ export function UserPage() {
               <th className="px-5 py-3 font-medium">Nombre de cita</th>
               <th className="px-5 py-3 font-medium">Detalles</th>
               <th className="px-5 py-3 font-medium">Estado de cita</th>
+              <th className="px-5 py-3 font-medium">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -175,6 +248,20 @@ export function UserPage() {
                     {appointment.status}
                   </span>
                 </td>
+                <td className="px-5 py-3">
+                  <button
+                    className="bg-yellow-500 text-white px-4 py-2 mr-2 rounded-lg hover:bg-yellow-600 transition duration-300"
+                    onClick={() => handleEditAppointment(appointment)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
+                    onClick={() => handleDeleteAppointment(appointment._id)}
+                  >
+                    Borrar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -190,12 +277,22 @@ export function UserPage() {
             >
               &times;
             </span>
-            <h2 className="text-xl text-black font-bold mb-4">Detalles de la cita</h2>
+            <h2 className="text-xl text-black font-bold mb-4">
+              Detalles de la cita
+            </h2>
             <div className="flex flex-col space-y-2">
-              <span className="p-1 border">Nombre de cita: {selectedAppointment.name}</span>
-              <span className="p-1 border">Fecha: {selectedAppointment.date}</span>
-              <span className="p-1 border">Lugar de residencia: {selectedAppointment.location}</span>
-              <span className="p-1 border">Estado: {selectedAppointment.status}</span>
+              <span className="p-1 border">
+                Nombre de cita: {selectedAppointment.name}
+              </span>
+              <span className="p-1 border">
+                Fecha: {selectedAppointment.date}
+              </span>
+              <span className="p-1 border">
+                Lugar de residencia: {selectedAppointment.location}
+              </span>
+              <span className="p-1 border">
+                Estado: {selectedAppointment.status}
+              </span>
             </div>
             <button
               className="bg-red-500 w-[100px] text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 mt-4"

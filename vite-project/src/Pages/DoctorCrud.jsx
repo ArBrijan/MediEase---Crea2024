@@ -1,291 +1,278 @@
-import DropdownDoctor, { DropdownCites } from "../Components/Dropdown";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
+import { FaEdit, FaTrash, FaInfoCircle } from "react-icons/fa";
 
-function DoctorCrud() {
-  const [openDropdown, setOpenDropdown] = useState(false);
-  const [openDropdownCites, setOpenDropdownCites] = useState(false);
-  const [patients, setPatients] = useState([]);
+export function AppointmentCrud() {
   const [appointments, setAppointments] = useState([]);
-  const [editPatient, setEditPatient] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [appointmentDate, setAppointmentDate] = useState("");
+  const [appointmentTime, setAppointmentTime] = useState("");
+  const [patientName, setPatientName] = useState("");
+  const [patientEmail, setPatientEmail] = useState("");
 
-  useEffect(() => {
-    const fetchPatients = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/patients');
-        setPatients(response.data);
-      } catch (err) {
-        console.error("Error al cargar los pacientes:", err);
-      }
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedAppointment(null);
+  };
+
+  const handleOpenDetails = (appointment) => {
+    setSelectedAppointment(appointment);
+    setIsDetailsOpen(true);
+  };
+
+  const handleCloseDetailsModal = () => {
+    setIsDetailsOpen(false);
+  };
+
+  const handleEditAppointment = (appointment) => {
+    setAppointmentDate(appointment.date);
+    setAppointmentTime(appointment.time);
+    setPatientName(appointment.patientName);
+    setPatientEmail(appointment.patientEmail);
+    setSelectedAppointment(appointment);
+    setIsModalOpen(true);
+  };
+
+  const handleCreateOrUpdateAppointment = async (e) => {
+    e.preventDefault();
+
+    const updatedAppointment = {
+      date: appointmentDate,
+      time: appointmentTime,
+      patientName,
+      patientEmail,
     };
 
-    fetchPatients();
-  }, []);
+    try {
+      if (selectedAppointment) {
+        const response = await axios.put(
+          `http://localhost:3001/appointments/${selectedAppointment._id}`,
+          updatedAppointment
+        );
+        setAppointments(
+          appointments.map((appointment) =>
+            appointment._id === selectedAppointment._id
+              ? response.data
+              : appointment
+          )
+        );
+      } else {
+        const response = await axios.post(
+          "http://localhost:3001/appointments",
+          updatedAppointment
+        );
+        setAppointments([...appointments, response.data]);
+      }
+      handleCloseModal();
+    } catch (err) {
+      console.error("Error al crear o actualizar la cita médica:", err);
+      alert(
+        `Error al crear o actualizar la cita médica: ${
+          err.response?.data?.message || err.message
+        }`
+      );
+    }
+  };
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/appointments?visibleToDoctors=true');
+        const response = await axios.get("http://localhost:3001/appointments");
         setAppointments(response.data);
       } catch (err) {
-        console.error("Error al cargar las citas:", err);
+        console.error("Error al cargar las citas médicas:", err);
       }
     };
 
     fetchAppointments();
   }, []);
 
-  const handleAddPatient = async (patient) => {
+  const handleDeleteAppointment = async (appointmentId) => {
     try {
-      const response = await axios.post('http://localhost:3001/patients', patient);
-      setPatients([...patients, response.data]);
+      await axios.delete(`http://localhost:3001/appointments/${appointmentId}`);
+      setAppointments(
+        appointments.filter((appointment) => appointment._id !== appointmentId)
+      );
     } catch (err) {
-      console.error("Error al agregar paciente:", err);
-    }
-  };
-
-  const handleEditPatient = async (updatedPatient) => {
-    try {
-      const response = await axios.put(`http://localhost:3001/patients/${updatedPatient.id}`, updatedPatient);
-      setPatients(patients.map(patient => patient.id === updatedPatient.id ? response.data : patient));
-      setEditPatient(null);
-    } catch (err) {
-      console.error("Error al actualizar paciente:", err);
-    }
-  };
-
-  const handleDeletePatient = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3001/patients/${id}`);
-      setPatients(patients.filter(patient => patient.id !== id));
-    } catch (err) {
-      console.error("Error al eliminar paciente:", err);
+      console.error("Error al borrar la cita médica:", err);
     }
   };
 
   return (
-    <div className="h-screen bg-violet-200 flex flex-row">
-      <div className="w-1/4 h-screen bg-slate-800 text-white flex flex-col items-center">
-        <img className="w-3/6 m-5 bg-white" src="../src/assets/NewLogo.png" alt="Logo" />
-        <div className="w-full flex flex-col">
-          <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdown((prev) => !prev)}>Gestión de pacientes</span>
-          {openDropdown && <DropdownDoctor />}
-          <span className="bg-slate-600 w-full p-2 cursor-pointer my-1" onClick={() => setOpenDropdownCites((prev) => !prev)}>Gestión de citas</span>
-          {openDropdownCites && <DropdownCites appointments={appointments} />}
-        </div>
-      </div>
-
-      <div className="basis-3/4 px-10">
-        <div className="flex items-center justify-between py-4 w-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="44"
-            height="44"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="lucide lucide-circle-user"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="10" r="3" />
-            <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
-          </svg>
-
-          <a
-            style={{ backgroundColor: "#1E1E1E" }}
-            className="text-white left-[670%] top-[15%] p-[15px] rounded-lg"
-            href="/"
-          >
-            Regresar
-          </a>
-        </div>
-
-        <PatientForm onAddPatient={handleAddPatient} editPatient={editPatient} onEditPatient={handleEditPatient} />
-
-        <table className="table-auto w-full bg-white rounded-xl shadow">
-          <thead>
-            <tr>
-              <th className="px-5 py-3 font">Paciente</th>
-              <th className="px-5 py-3 font">Historial</th>
-              <th className="px-5 py-3 font">Medicamento</th>
-              <th className="px-5 py-3 font">Edad</th>
-              <th className="px-5 py-3 font">Teléfono</th>
-              <th className="px-5 py-3 font">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map(patient => (
-              <tr key={patient.id}>
-                <td className="px-5 py-3 font-normal">{patient.name}</td>
-                <td className="px-5 py-3 font-normal">{patient.history}</td>
-                <td className="px-5 py-3 font-normal">{patient.medication}</td>
-                <td className="px-5 py-3 font-normal">{patient.age}</td>
-                <td className="px-5 py-3 font-normal">{patient.phone}</td>
-                <td className="px-5 py-3 font-normal flex justify-around">
-                  <button onClick={() => setEditPatient(patient)}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                      />
-                    </svg>
-                  </button>
-                  <button onClick={() => handleDeletePatient(patient.id)}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="size-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                      />
-                    </svg>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div
-          style={{
-            position: "fixed",
-            top: "91%",
-            left: "96%",
-            transform: "translate(-50%, -50%)",
-          }}
-          className="w-[70px] h-[70px] flex justify-center items-center bg-slate-800 rounded-full"
-          onClick={() => setEditPatient({ id: null, name: '', history: '', medication: '', age: '', phone: '' })}
+    <div className="h-screen bg-gray-100 flex flex-col">
+      <nav
+        style={{ backgroundColor: "#020D19" }}
+        className="p-4 text-white flex justify-between items-center"
+      >
+        <img
+          className="w-24"
+          src="../src/assets/newLogo.png"
+          alt="Empresa logo"
+        />
+        <h1 className="text-2xl font-bold">Administración de Citas Médicas</h1>
+        <button
+          className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          onClick={handleOpenModal}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="white"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
+          Agregar Cita Médica
+        </button>
+      </nav>
+
+      <div className="flex-1 p-10">
+        <h2 className="text-3xl font-semibold text-blue-900 mb-6">
+          Lista de Citas Médicas
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {appointments.map((appointment) => (
+            <div
+              key={appointment._id}
+              className="bg-white rounded-lg shadow-lg p-4"
+            >
+              <h3 className="text-xl font-semibold mb-2">
+                {appointment.patientName}
+              </h3>
+              <p>
+                <strong>Email del paciente:</strong> {appointment.patientEmail}
+              </p>
+              <p>
+                <strong>Fecha:</strong> {appointment.date}
+              </p>
+              <p>
+                <strong>Hora:</strong> {appointment.time}
+              </p>
+              <div className="mt-4 flex justify-between">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                  onClick={() => handleOpenDetails(appointment)}
+                >
+                  <FaInfoCircle /> Detalles
+                </button>
+                <button
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
+                  onClick={() => handleEditAppointment(appointment)}
+                >
+                  <FaEdit /> Editar
+                </button>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                  onClick={() => handleDeleteAppointment(appointment._id)}
+                >
+                  <FaTrash /> Eliminar
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
+              <span
+                className="text-gray-500 text-2xl cursor-pointer absolute top-4 right-4"
+                onClick={handleCloseModal}
+              >
+                &times;
+              </span>
+              <h2 className="text-xl font-bold mb-4">
+                {selectedAppointment
+                  ? "Editar Cita Médica"
+                  : "Agregar Cita Médica"}
+              </h2>
+              <form
+                className="flex flex-col space-y-4"
+                onSubmit={handleCreateOrUpdateAppointment}
+              >
+                <label className="text-gray-700">Fecha</label>
+                <input
+                  type="date"
+                  className="border p-2 rounded-lg"
+                  value={appointmentDate}
+                  onChange={(e) => setAppointmentDate(e.target.value)}
+                  required
+                />
+                <label className="text-gray-700">Hora</label>
+                <input
+                  type="time"
+                  className="border p-2 rounded-lg"
+                  value={appointmentTime}
+                  onChange={(e) => setAppointmentTime(e.target.value)}
+                  required
+                />
+                <label className="text-gray-700">Nombre del Paciente</label>
+                <input
+                  type="text"
+                  placeholder="Nombre del Paciente"
+                  className="border p-2 rounded-lg"
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                  required
+                />
+                <label className="text-gray-700">Email del Paciente</label>
+                <input
+                  type="email"
+                  placeholder="Email del Paciente"
+                  className="border p-2 rounded-lg"
+                  value={patientEmail}
+                  onChange={(e) => setPatientEmail(e.target.value)}
+                  required
+                />
+                <div className="flex justify-around mt-4">
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                    onClick={handleCloseModal}
+                  >
+                    Cerrar
+                  </button>
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                    type="submit"
+                  >
+                    {selectedAppointment ? "Actualizar" : "Agregar"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {isDetailsOpen && selectedAppointment && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
+              <span
+                className="text-gray-500 text-2xl cursor-pointer absolute top-4 right-4"
+                onClick={handleCloseDetailsModal}
+              >
+                &times;
+              </span>
+              <h2 className="text-xl font-bold mb-4">
+                Detalles de la Cita Médica
+              </h2>
+              <p>
+                <strong>Nombre del Paciente:</strong>{" "}
+                {selectedAppointment.patientName}
+              </p>
+              <p>
+                <strong>Email del Paciente:</strong>{" "}
+                {selectedAppointment.patientEmail}
+              </p>
+              <p>
+                <strong>Fecha:</strong> {selectedAppointment.date}
+              </p>
+              <p>
+                <strong>Hora:</strong> {selectedAppointment.time}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function PatientForm({ onAddPatient, editPatient, onEditPatient }) {
-  const [patient, setPatient] = useState(editPatient || {
-    name: '',
-    history: '',
-    medication: '',
-    age: '',
-    phone: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPatient({ ...patient, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editPatient) {
-      onEditPatient(patient);
-    } else {
-      onAddPatient(patient);
-    }
-    setPatient({
-      name: '',
-      history: '',
-      medication: '',
-      age: '',
-      phone: '',
-    });
-  };
-
-  useEffect(() => {
-    setPatient(editPatient || {
-      name: '',
-      history: '',
-      medication: '',
-      age: '',
-      phone: '',
-    });
-  }, [editPatient]);
-
-  return (
-    <form onSubmit={handleSubmit} className="my-4">
-      <input
-        type="text"
-        name="name"
-        value={patient.name}
-        onChange={handleChange}
-        placeholder="Nombre del Paciente"
-        required
-        className="p-2 m-2 border rounded"
-      />
-      <input
-        type="text"
-        name="history"
-        value={patient.history}
-        onChange={handleChange}
-        placeholder="Historial"
-        required
-        className="p-2 m-2 border rounded"
-      />
-      <input
-        type="text"
-        name="medication"
-        value={patient.medication}
-        onChange={handleChange}
-        placeholder="Medicamento"
-        required
-        className="p-2 m-2 border rounded"
-      />
-      <input
-        type="number"
-        name="age"
-        value={patient.age}
-        onChange={handleChange}
-        placeholder="Edad"
-        required
-        className="p-2 m-2 border rounded"
-      />
-      <input
-        type="tel"
-        name="phone"
-        value={patient.phone}
-        onChange={handleChange}
-        placeholder="Teléfono"
-        required
-        className="p-2 m-2 border rounded"
-      />
-      
-      <button type="submit" className="p-2 m-2 bg-slate-800 text-white rounded">
-        {editPatient ? 'Actualizar Paciente' : 'Agregar Paciente'}
-      </button>
-    </form>
-  );
-}
-
-export default DoctorCrud;
+export default AppointmentCrud;

@@ -3,11 +3,13 @@
     import { Home } from "./HomePage";
     import { Register } from "./Register";
     import { Login } from "./Login"
-    import DoctorCrud from "./DoctorCrud";
+    import { AppointmentCrud } from "./DoctorCrud";
     import Pruebas from "./Pruebas";
     import DropdownDoctor from "../Components/Dropdown";
     import { Info } from "./Info";
     import { UserPage } from "./UserPage"
+    import DoctorManager from "./DoctorManager";
+    import DoctorLogin from "./DoctorLogin";
 
 
     const router = createBrowserRouter([
@@ -24,8 +26,8 @@
             element: <Login />
         },
         {
-            path: 'DoctorCrud',
-            element: <DoctorCrud />
+            path: 'AppointmentCrud',
+            element: <AppointmentCrud />
         },
         {
             path: 'Pruebas',
@@ -42,6 +44,14 @@
         {
             path: 'UserPage',
             element: <UserPage />
+        },
+        {
+            path: 'DoctorManager',
+            element: <DoctorManager/>
+        },
+        {
+            path: 'DoctorLogin',
+            element: <DoctorLogin />
         }
     ]);
 
