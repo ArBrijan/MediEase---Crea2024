@@ -11,6 +11,9 @@ export function AppointmentCrud() {
   const [appointmentTime, setAppointmentTime] = useState("");
   const [patientName, setPatientName] = useState("");
   const [patientEmail, setPatientEmail] = useState("");
+  const [medicineNumber, setMedicineNumber] = useState("");
+  const [doctorDiagnosis, setDoctorDiagnosis] = useState("");
+
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -41,14 +44,17 @@ export function AppointmentCrud() {
 
   const handleCreateOrUpdateAppointment = async (e) => {
     e.preventDefault();
-
+  
+    // Aquí se agrega el medicamento seleccionado por el doctor
     const updatedAppointment = {
       date: appointmentDate,
       time: appointmentTime,
       patientName,
       patientEmail,
+      doctorDiagnosis: doctorDiagnosis, // Se añade el diagnóstico del doctor
+      prescribedMedication: selectedMedication, // El medicamento seleccionado (1-9)
     };
-
+  
     try {
       if (selectedAppointment) {
         const response = await axios.put(
@@ -79,6 +85,7 @@ export function AppointmentCrud() {
       );
     }
   };
+  
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -188,40 +195,32 @@ export function AppointmentCrud() {
                 className="flex flex-col space-y-4"
                 onSubmit={handleCreateOrUpdateAppointment}
               >
-                <label className="text-gray-700">Fecha</label>
-                <input
-                  type="date"
+                <label className="text-gray-700">Número de Medicamento</label>
+                <select
                   className="border p-2 rounded-lg"
-                  value={appointmentDate}
-                  onChange={(e) => setAppointmentDate(e.target.value)}
+                  value={medicineNumber}
+                  onChange={(e) => setMedicineNumber(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    Selecciona un número (1-9)
+                  </option>
+                  {[...Array(9)].map((_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+
+                <label className="text-gray-700">Diagnóstico</label>
+                <textarea
+                  placeholder="Escribe el diagnóstico"
+                  className="border p-2 rounded-lg"
+                  value={diagnosis}
+                  onChange={(e) => setDoctorDiagnosis(e.target.value)}
                   required
                 />
-                <label className="text-gray-700">Hora</label>
-                <input
-                  type="time"
-                  className="border p-2 rounded-lg"
-                  value={appointmentTime}
-                  onChange={(e) => setAppointmentTime(e.target.value)}
-                  required
-                />
-                <label className="text-gray-700">Nombre del Paciente</label>
-                <input
-                  type="text"
-                  placeholder="Nombre del Paciente"
-                  className="border p-2 rounded-lg"
-                  value={patientName}
-                  onChange={(e) => setPatientName(e.target.value)}
-                  required
-                />
-                <label className="text-gray-700">Email del Paciente</label>
-                <input
-                  type="email"
-                  placeholder="Email del Paciente"
-                  className="border p-2 rounded-lg"
-                  value={patientEmail}
-                  onChange={(e) => setPatientEmail(e.target.value)}
-                  required
-                />
+
                 <div className="flex justify-around mt-4">
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
@@ -233,7 +232,7 @@ export function AppointmentCrud() {
                     className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
                     type="submit"
                   >
-                    {selectedAppointment ? "Actualizar" : "Agregar"}
+                    Guardar Cambios
                   </button>
                 </div>
               </form>

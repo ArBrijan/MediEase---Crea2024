@@ -13,7 +13,7 @@ function DoctorLogin() {
     try {
       const response = await axios.post("http://localhost:3001/doctor-login", { email, password });
       if (response.data.message === "Success") {
-        navigate("/DoctorCrud");  // Redirige al dashboard del doctor
+        navigate("/AppointmentCrud");  // Redirige al dashboard del doctor
       } else {
         setError("Correo o contraseña incorrectos");
       }
