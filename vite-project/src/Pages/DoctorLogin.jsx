@@ -23,14 +23,14 @@ function DoctorLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 flex items-center justify-center">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Inicio sesion doctor</h2>
+    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl flex flex-col items-center">
+        <h2 className="text-4xl font-semibold text-black mb-8 text-center">Inicio de sesión Doctor</h2>
         {error && <div className="text-red-500 mb-4">{error}</div>}
-        <form onSubmit={handleLogin}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email
+        <form onSubmit={handleLogin} className="w-full">
+          <div className="mb-5">
+            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="email">
+              Correo electrónico
             </label>
             <input
               type="email"
@@ -38,11 +38,11 @@ function DoctorLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-600"
+              className="w-full p-3 border border-gray-900 rounded-lg focus:outline-none focus:ring focus:border-black"
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          <div className="mb-8">
+            <label className="block text-black text-sm font-medium mb-2" htmlFor="password">
               Contraseña
             </label>
             <input
@@ -51,12 +51,12 @@ function DoctorLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-600"
+              className="w-full p-3 border border-gray-900 rounded-lg focus:outline-none focus:ring focus:border-black"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-full bg-black text-white p-3 rounded-lg hover:bg-black transition duration-200"
           >
             Iniciar sesión
           </button>
@@ -67,3 +67,4 @@ function DoctorLogin() {
 }
 
 export default DoctorLogin;
+
