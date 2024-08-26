@@ -44,7 +44,7 @@ export function Register() {
       </div>
       <div className="w-0 md:w-[500px] h-[500px] border hidden md:flex justify-center items-center">
         <img
-          className="w-[500px] h-[495px]"
+          className="w-[450px] h-[495px]"
           src="./src/assets/pills.png"
           alt="Imagen"
         />
@@ -102,13 +102,13 @@ export function Register() {
             type="submit"
             className="text-white bg-black p-3 rounded w-[110px]"
           >
-            Register
+            Registrarse
           </button>
           <Link
             to="/Login"
-            className="text-white bg-black p-3 rounded w-[110px]"
+            className="text-white bg-black p-3 rounded w-[130px]"
           >
-            Login
+            Iniciar sesion
           </Link>
         </div>
       </form>

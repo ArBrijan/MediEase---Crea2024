@@ -23,9 +23,9 @@ function DoctorLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-800 flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Doctor Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Inicio sesion doctor</h2>
         {error && <div className="text-red-500 mb-4">{error}</div>}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
@@ -38,7 +38,7 @@ function DoctorLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-600"
             />
           </div>
           <div className="mb-4">
@@ -51,7 +51,7 @@ function DoctorLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:border-blue-600"
             />
           </div>
           <button

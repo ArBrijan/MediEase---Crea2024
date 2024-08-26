@@ -40,7 +40,7 @@ export function Login() {
         className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full"
       >
         <img
-          className="w-[170px]"
+          className="w-[170px] "
           src="./src/assets/newLogo.png"
           alt="LogoEmpresa"
         />
@@ -55,7 +55,7 @@ export function Login() {
         {/* Imagen a la izquierda */}
         <div className="w-0 md:w-1/2 md:mb-5 flex justify-center items-center">
           <img
-            className="w-[500px] h-[495px]"
+            className="w-[450px] h-[495px]"
             src="./src/assets/pills.png"
             alt="Imagen"
           />

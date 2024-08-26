@@ -31,10 +31,10 @@ export function Home() {
             </Link>
 
             <Link
-              className="bg-black text-white p-3 rounded w-28 text-center mb-1 ml-1"
+              className="bg-black text-white p-3 rounded w-30 text-center mb-1 ml-1"
               to="Login"
             >
-              Login
+              Iniciar sesion
             </Link>
           </div>
 
@@ -48,7 +48,7 @@ export function Home() {
             className="bg-black text-white p-3 rounded m-1 w-[232px] text-center"
             to="DoctorLogin"
           >
-            Login Doctores
+            Inicio sesion doctores
           </Link>
         </div>
       </div>
