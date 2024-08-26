@@ -31,7 +31,7 @@ export function Register() {
       <div className="absolute top-0 left-0 w-full flex items-center justify-between p-5 bg-white shadow-md">
         <img
           className="w-40"
-          src="./src/assets/newLogo.png"
+          src="./src/assets/newLogo2.png"
           alt="LogoEmpresa"
         />
         <Link to="/" className="text-white  bg-black rounded-lg p-3 w-[130px] text-center">
