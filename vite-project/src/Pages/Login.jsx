@@ -34,67 +34,65 @@ export function Login() {
   };
 
   return (
-    <div className="w-screen h-screen relative flex items-center justify-center">
-      <div
-        style={{ backgroundColor: "#EEF2F5" }}
-        className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full"
-      >
+    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="absolute top-0 left-0 w-full flex items-center justify-between p-5 bg-white shadow-md">
         <img
-          className="w-[170px] "
+          className="w-40"
           src="./src/assets/newLogo.png"
           alt="LogoEmpresa"
         />
-
-        <Link to="/" className="text-white p-[15px] rounded-lg bg-black">
+        <Link to="/" className="text-white  bg-black rounded-lg p-3 w-[130px] text-center">
           Regresar
         </Link>
       </div>
 
-      {/* Contenido principal */}
       <main className="flex flex-col md:flex-row justify-center items-center mt-24">
         {/* Imagen a la izquierda */}
-        <div className="w-0 md:w-1/2 md:mb-5 flex justify-center items-center">
+        <div className="hidden md:flex md:w-1/2 md:mb-5 justify-center items-center">
           <img
-            className="w-[450px] h-[495px]"
+            className="w-[500px] h-[495px] rounded-xl shadow-lg"
             src="./src/assets/pills.png"
             alt="Imagen"
           />
         </div>
-        <div className="w-[500px] h-[500px] p-5 border flex flex-col justify-center">
+        <div className="bg-white shadow-xl rounded-lg p-10 flex flex-col w-[350px] md:w-[500px]">
           <form onSubmit={handleSubmit} className="flex flex-col items-center">
-            <h1 className="text-3xl font-medium">Inicia sesión</h1>
-            <br />
+            <h1 className="text-4xl font-semibold text-black mb-8 text-center">
+              Inicia sesión
+            </h1>
             <input
-              className="border p-2"
+              className="border border-gray-300 rounded-lg p-3 mb-8 focus:outline-none"
               type="email"
               placeholder="Correo electrónico"
               required
-              value={email} // Añadir el valor actual del estado
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <br />
             <input
-              className="border p-2"
+              className="border border-gray-300 rounded-lg p-3 mb-8 focus:outline-none"
               type="password"
               placeholder="Contraseña"
               required
-              value={password} // Añadir el valor actual del estado
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <br />
-            <label>
-              <Link to="/Register">¿No tienes una cuenta?</Link>
+            <label className="mb-8">
+              <Link to="/Register" className="text-black">
+                ¿No tienes una cuenta?
+              </Link>
             </label>
-            <br />
-            <div className="flex justify-evenly text-white w-full">
+            <div className="flex justify-between w-full">
               <button
                 type="button"
-                className="bg-black p-3 rounded w-32"
+                className="text-white bg-black rounded-lg p-3 w-[130px]"
                 onClick={() => navigate("/Register")}
               >
                 Regístrate
               </button>
-              <button type="submit" className="bg-black p-3 rounded w-32">
+              <button
+                type="submit"
+                className="text-white bg-black rounded-lg p-3 w-[130px]"
+              >
                 Iniciar sesión
               </button>
             </div>
