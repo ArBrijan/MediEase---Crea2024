@@ -113,7 +113,7 @@ export function AppointmentCrud() {
       <nav className="p-4 bg-gray-800 text-white flex justify-between items-center border-b-4 border-gray-700 shadow-xl">
         <img
           className="w-24"
-          src="../src/assets/newLogo.png"
+          src="../src/assets/logoblanco.png"
           alt="Empresa logo"
         />
         <h1 className="text-2xl font-bold">Administración de Citas Médicas</h1>
