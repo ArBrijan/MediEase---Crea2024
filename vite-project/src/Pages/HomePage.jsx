@@ -10,7 +10,7 @@ export function Home() {
         >
           <img
             className="w-[170px]"
-            src="./src/assets/newLogo.png"
+            src="./src/assets/newLogo2.png"
             alt="LogoEmpresa"
           />
         </div>
