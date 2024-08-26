@@ -77,11 +77,10 @@ function DoctorManager() {
     };
 
     return (
-        <div className="h-screen bg-gray-100 p-6">
-            <h1 className="text-2xl font-bold mb-4">Gestión de Doctores</h1>
-
+        <div className="h-screen bg-gray-300 p-6">
+            <h1 className="text-2xl font-bold mb-4">Gestión de doctores</h1>
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md mb-6">
-                <h2 className="text-xl font-semibold mb-4">{editMode ? 'Editar Doctor' : 'Agregar Nuevo Doctor'}</h2>
+                <h2 className="text-xl font-semibold mb-4">{editMode ? 'Editar Doctor' : 'Agregar nuevo doctor'}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Nombre</label>
@@ -127,7 +126,7 @@ function DoctorManager() {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Número de Licencia</label>
+                        <label className="block text-sm font-medium text-gray-700">Número de licencia</label>
                         <input
                             type="text"
                             name="licenseNumber"
@@ -149,9 +148,9 @@ function DoctorManager() {
                 </div>
                 <button
                     type="submit"
-                    className="mt-4 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600"
+                    className="mt-4 bg-gray-800 text-white p-2 rounded-lg hover:bg-white-600"
                 >
-                    {editMode ? 'Actualizar Doctor' : 'Agregar Doctor'}
+                    {editMode ? 'Actualizar Doctor' : 'Agregar doctor'}
                 </button>
                 {editMode && (
                     <button
@@ -170,7 +169,7 @@ function DoctorManager() {
                         <th className="py-2 px-4 border-b">Nombre</th>
                         <th className="py-2 px-4 border-b">Email</th>
                         <th className="py-2 px-4 border-b">Especialidad</th>
-                        <th className="py-2 px-4 border-b">Número de Licencia</th>
+                        <th className="py-2 px-4 border-b">Número de licencia</th>
                         <th className="py-2 px-4 border-b">Teléfono</th>
                         <th className="py-2 px-4 border-b">Acciones</th>
                     </tr>

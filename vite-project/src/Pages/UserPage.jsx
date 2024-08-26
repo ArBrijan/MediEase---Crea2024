@@ -83,7 +83,6 @@ export function UserPage() {
       );
     }
   };
-  
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -118,17 +117,17 @@ export function UserPage() {
   };
 
   return (
-    <div className="h-screen bg-blue-100 flex flex-row">
-      <div className="w-1/4 h-screen bg-blue-800 text-white flex flex-col items-center">
+    <div className="h-screen bg-gray-300 flex">
+      <div className="w-1/4 h-screen bg-gray-800 text-white flex flex-col items-center justify-center">
         <img
-          className="w-3/6 m-5 bg-white rounded-lg"
-          src="../src/assets/newLogo.png"
+          className="w-4/6 bg-white rounded-lg"
+          src="../src/assets/newLogo2.png"
           alt="Empresa logo"
         />
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center mt-10">
           <h1 className="text-2xl font-bold mb-4">Administración</h1>
           <button
-            className="bg-blue-600 w-4/5 p-2 mb-3 rounded-lg hover:bg-blue-700 transition duration-300"
+            className="bg-blue-600 w-2/4 p-2 mb-3 rounded-lg hover:bg-blue-700 transition duration-300"
             onClick={handleOpenModal}
           >
             Agendar cita
@@ -206,17 +205,25 @@ export function UserPage() {
       </div>
 
       <div className="basis-3/4 p-10">
-        <div className="flex items-center justify-between py-4">
-          <h2 className="text-3xl font-semibold text-blue-900">Mis citas</h2>
+        <div className="flex items-center py-3">
+          <img
+            className="w-16 h-16 rounded-full object-cover"
+            src="../src/assets/usuario.png"
+            alt="Usuario"
+          />
+          <div className="ml-4">
+            <h2 className="text-xl font-semibold text-blue-900">Brayan Gustavo Avila</h2>
+            <h2 className="flex items-centertext-3xl font-semibold text-blue-900">Mis citas</h2>
+          </div>
           <a
-            className="bg-gray-700 text-white p-3 rounded-lg hover:bg-gray-800 transition duration-300"
+            className="bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-700 transition duration-300 ml-auto"
             href="/"
           >
             Regresar
           </a>
         </div>
 
-        <table className="table-auto w-full bg-white rounded-xl shadow-lg">
+        <table className="table-auto w-full bg-white rounded-xl shadow-lg mt-4">
           <thead>
             <tr>
               <th className="px-5 py-3 font-medium">Nombre de cita</th>
