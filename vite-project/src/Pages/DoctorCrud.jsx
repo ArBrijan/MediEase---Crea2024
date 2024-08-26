@@ -44,14 +44,13 @@ export function AppointmentCrud() {
   const handleCreateOrUpdateAppointment = async (e) => {
     e.preventDefault();
 
-    // Aquí se agrega el medicamento seleccionado por el doctor
     const updatedAppointment = {
       date: appointmentDate,
       time: appointmentTime,
       patientName,
       patientEmail,
-      doctorDiagnosis: doctorDiagnosis, // Se añade el diagnóstico del doctor
-      prescribedMedication: selectedMedication, // El medicamento seleccionado (1-9)
+      doctorDiagnosis,
+      prescribedMedication: medicineNumber,
     };
 
     try {
@@ -110,11 +109,8 @@ export function AppointmentCrud() {
   };
 
   return (
-    <div className="h-screen bg-gray-100 flex flex-col">
-      <nav
-        style={{ backgroundColor: "#020D19" }}
-        className="p-4 text-white flex justify-between items-center"
-      >
+    <div className="h-screen bg-gray-900 flex flex-col">
+      <nav className="p-4 bg-gray-800 text-white flex justify-between items-center border-b-4 border-gray-700 shadow-xl">
         <img
           className="w-24"
           src="../src/assets/newLogo.png"
@@ -122,24 +118,23 @@ export function AppointmentCrud() {
         />
         <h1 className="text-2xl font-bold">Administración de Citas Médicas</h1>
         <button
-          className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="bg-teal-600 px-4 py-2 rounded-lg hover:bg-teal-700 transition-transform transform hover:scale-105"
           onClick={handleOpenModal}
         >
           Agregar Cita Médica
         </button>
       </nav>
-
-      <div className="flex-1 p-10">
-        <h2 className="text-3xl font-semibold text-blue-900 mb-6">
+      <div className="flex-1 p-10 bg-white rounded-lg shadow-lg mx-4 mt-4">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-6">
           Lista de Citas Médicas
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {appointments.map((appointment) => (
             <div
               key={appointment._id}
-              className="bg-white rounded-lg shadow-lg p-4"
+              className="bg-gray-100 rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105"
             >
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 {appointment.patientName}
               </h3>
               <p>
@@ -153,19 +148,19 @@ export function AppointmentCrud() {
               </p>
               <div className="mt-4 flex justify-between">
                 <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                  className="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-transform transform hover:scale-105"
                   onClick={() => handleOpenDetails(appointment)}
                 >
                   <FaInfoCircle /> Detalles
                 </button>
                 <button
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-transform transform hover:scale-105"
                   onClick={() => handleEditAppointment(appointment)}
                 >
                   <FaEdit /> Editar
                 </button>
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-transform transform hover:scale-105"
                   onClick={() => handleDeleteAppointment(appointment._id)}
                 >
                   <FaTrash /> Eliminar
@@ -174,17 +169,16 @@ export function AppointmentCrud() {
             </div>
           ))}
         </div>
-
         {isModalOpen && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
+            <div className="bg-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 transition-transform transform scale-95 hover:scale-100">
               <span
-                className="text-gray-500 text-2xl cursor-pointer absolute top-4 right-4"
+                className="text-gray-400 text-2xl cursor-pointer absolute top-4 right-4"
                 onClick={handleCloseModal}
               >
                 &times;
               </span>
-              <h2 className="text-xl font-bold mb-4">
+              <h2 className="text-xl font-bold text-teal-300 mb-4">
                 {selectedAppointment
                   ? "Editar Cita Médica"
                   : "Agregar Cita Médica"}
@@ -193,9 +187,9 @@ export function AppointmentCrud() {
                 className="flex flex-col space-y-4"
                 onSubmit={handleCreateOrUpdateAppointment}
               >
-                <label className="text-gray-700">Número de Medicamento</label>
+                <label className="text-gray-400">Número de Medicamento</label>
                 <select
-                  className="border p-2 rounded-lg"
+                  className="border bg-gray-700 text-white p-2 rounded-lg"
                   value={medicineNumber}
                   onChange={(e) => setMedicineNumber(e.target.value)}
                   required
@@ -210,24 +204,24 @@ export function AppointmentCrud() {
                   ))}
                 </select>
 
-                <label className="text-gray-700">Diagnóstico</label>
+                <label className="text-gray-400">Diagnóstico</label>
                 <textarea
                   placeholder="Escribe el diagnóstico"
-                  className="border p-2 rounded-lg"
-                  value={doctorDiagnosis} // Corrección aquí
+                  className="border bg-gray-700 text-white p-2 rounded-lg"
+                  value={doctorDiagnosis}
                   onChange={(e) => setDoctorDiagnosis(e.target.value)}
                   required
                 />
 
                 <div className="flex justify-around mt-4">
                   <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-transform transform hover:scale-105"
                     onClick={handleCloseModal}
                   >
                     Cerrar
                   </button>
                   <button
-                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+                    className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-transform transform hover:scale-105"
                     type="submit"
                   >
                     Guardar Cambios
@@ -237,32 +231,35 @@ export function AppointmentCrud() {
             </div>
           </div>
         )}
-
         {isDetailsOpen && selectedAppointment && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
+            <div className="bg-gray-800 rounded-lg shadow-lg max-w-lg w-full p-6 transition-transform transform scale-95 hover:scale-100">
               <span
-                className="text-gray-500 text-2xl cursor-pointer absolute top-4 right-4"
+                className="text-gray-400 text-2xl cursor-pointer absolute top-4 right-4"
                 onClick={handleCloseDetailsModal}
               >
                 &times;
               </span>
-              <h2 className="text-xl font-bold mb-4">
+              <h2 className="text-xl font-bold text-teal-300 mb-4">
                 Detalles de la Cita Médica
               </h2>
               <p>
-                <strong>Nombre del Paciente:</strong>{" "}
-                {selectedAppointment.patientName}
+              <strong>Nombre del Paciente:</strong> {selectedAppointment.patientName}
               </p>
               <p>
-                <strong>Email del Paciente:</strong>{" "}
-                {selectedAppointment.patientEmail}
+                <strong>Email del Paciente:</strong> {selectedAppointment.patientEmail}
               </p>
               <p>
                 <strong>Fecha:</strong> {selectedAppointment.date}
               </p>
               <p>
                 <strong>Hora:</strong> {selectedAppointment.time}
+              </p>
+              <p>
+                <strong>Diagnóstico:</strong> {selectedAppointment.doctorDiagnosis}
+              </p>
+              <p>
+                <strong>Medicamento Prescrito:</strong> {selectedAppointment.prescribedMedication}
               </p>
             </div>
           </div>
@@ -273,3 +270,4 @@ export function AppointmentCrud() {
 }
 
 export default AppointmentCrud;
+
