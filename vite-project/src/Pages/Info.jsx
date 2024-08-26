@@ -86,7 +86,7 @@ export function Info() {
   <div className="container mx-auto px-4">
     <div className="flex flex-col items-center justify-between sm:flex-row">
       <Link to="https://flowbite.com/" className="flex items-center mb-4 sm:mb-0">
-        <img src="./src/assets/newLogo.png" alt="Logo" className="w-36" />
+        <img src="./src/assets/logoblanco.png" alt="Logo" className="w-36" />
       </Link>
       <ul className="flex gap-6 text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 sm:mt-0">
         <li>
