@@ -7,12 +7,12 @@ export function Info() {
           <div className="lg:w-1/2">
             <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
               La mejor forma de cuidar tu salud
-            </h1>
+            </h1>br
             <p className="mt-4 text-gray-600 dark:text-gray-400 sm:text-lg lg:text-xl">
               Todos los salvadoreños tienen el derecho de disfrutar su día a día de la mejor manera posible. Esto se consigue con tu ayuda.
-            </p>
+            </p><br />
             <a
-              href="/Home"
+              href="/"
               className="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
             >
               <Link
@@ -86,7 +86,7 @@ export function Info() {
   <div className="container mx-auto px-4">
     <div className="flex flex-col items-center justify-between sm:flex-row">
       <Link to="https://flowbite.com/" className="flex items-center mb-4 sm:mb-0">
-        <img src="./src/assets/newLogo.png" alt="Logo" className="w-36" />
+        <img src="./src/assets/logoblanco.png" alt="Logo" className="w-36" />
       </Link>
       <ul className="flex gap-6 text-sm font-medium text-gray-500 dark:text-gray-400 mt-4 sm:mt-0">
         <li>

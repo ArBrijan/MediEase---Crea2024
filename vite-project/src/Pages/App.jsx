@@ -12,7 +12,7 @@
     import DoctorLogin from "./DoctorLogin";
 
 
-    const router = createBrowserRouter([
+const router = createBrowserRouter([
         {
             path: '/',
             element: <Home />
@@ -44,6 +44,10 @@
         {
             path: 'UserPage',
             element: <UserPage />
+        },
+        {
+            path: 'DoctorManager',
+            element: <DoctorManager/>
         },
         {
             path: 'DoctorManager',
