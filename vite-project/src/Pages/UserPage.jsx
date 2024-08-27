@@ -38,7 +38,7 @@ export function UserPage() {
     setSelectedAppointment(appointment);
     setIsModalOpen(true);
   };
-
+ 
   const handleScheduleAppointment = async (e) => {
     e.preventDefault();
   

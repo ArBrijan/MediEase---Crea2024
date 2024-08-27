@@ -6,11 +6,20 @@ const AppointmentModel = require('./models/Appointments');
 const DoctorModel = require('./models/Doctors');
 const bcrypt = require('bcryptjs');
 
+require('dotenv').config();
+
 const app = express();  
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://127.0.0.1:27017/mediEase");
+// Usar la URI de MongoDB desde las variables de entorno
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log("Conectado a la base de datos"))
+.catch((err) => console.error("Error al conectar a la base de datos:", err));
+
 
 // Ruta para el login de usuario
 app.post('/login', async (req, res) => {
