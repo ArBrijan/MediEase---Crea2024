@@ -1,4 +1,4 @@
-# MediEase---Crea2024
+# MediEase_Crea2024
 Proyecto realizado por:
 - Brayan Steven Contreras
 - Jorge Antonio Ávila Rivas
