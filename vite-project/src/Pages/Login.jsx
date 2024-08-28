@@ -34,34 +34,42 @@ export function Login() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br bg-gray-300">
       <div className="absolute top-0 left-0 w-full flex items-center justify-between p-5 bg-white shadow-md">
         <img
           className="w-40"
           src="./src/assets/newLogo2.png"
           alt="LogoEmpresa"
         />
-        <Link to="/" className="text-white  bg-black rounded-lg p-3 w-[130px] text-center">
+        <Link
+          to="/"
+          className="text-white bg-black rounded-lg p-3 w-[130px] text-center"
+        >
           Regresar
         </Link>
       </div>
 
-      <main className="flex flex-col md:flex-row justify-center items-center mt-24">
+      <main className="flex flex-col md:flex-row justify-center items-center ">
         {/* Imagen a la izquierda */}
         <div className="hidden md:flex md:w-1/2 md:mb-5 justify-center items-center">
           <img
-            className="w-[500px] h-[495px] rounded-xl shadow-lg"
+            className="w-[500px] h-[490px] shadow-lg"
             src="./src/assets/pills.png"
             alt="Imagen"
           />
         </div>
-        <div className="bg-white shadow-xl rounded-lg p-10 flex flex-col w-[350px] md:w-[500px]">
-          <form onSubmit={handleSubmit} className="flex flex-col items-center">
+
+        {/* Contenedor del formulario */}
+        <div className="bg-white shadow-xl p-10 flex flex-col w-full md:w-[500px] h-[490px] mb-5">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col h-full justify-between items-center"
+          >
             <h1 className="text-4xl font-semibold text-black mb-8 text-center">
               Inicia sesión
             </h1>
             <input
-              className="border border-gray-300 rounded-lg p-3 mb-8 focus:outline-none"
+              className="border border-gray-300 rounded-lg p-3 mb-8 focus:outline-none w-full"
               type="email"
               placeholder="Correo electrónico"
               required
@@ -69,7 +77,7 @@ export function Login() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
-              className="border border-gray-300 rounded-lg p-3 mb-8 focus:outline-none"
+              className="border border-gray-300 rounded-lg p-3 mb-8 focus:outline-none w-full"
               type="password"
               placeholder="Contraseña"
               required

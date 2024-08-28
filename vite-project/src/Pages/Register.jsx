@@ -27,27 +27,33 @@ export function Register() {
   }
 
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br  bg-gray-300 ">
       <div className="absolute top-0 left-0 w-full flex items-center justify-between p-5 bg-white shadow-md">
         <img
           className="w-40"
           src="./src/assets/newLogo2.png"
           alt="LogoEmpresa"
         />
-        <Link to="/" className="text-white  bg-black rounded-lg p-3 w-[130px] text-center">
+        <Link
+          to="/"
+          className="text-white  bg-black rounded-lg p-3 w-[130px] text-center"
+        >
           Regresar
         </Link>
       </div>
 
       <div className="hidden md:flex md:w-[515px] h-[500px] items-center justify-center">
         <img
-          className="rounded-xl shadow-lg"
+          className="shadow-lg"
           src="./src/assets/pills.png"
           alt="Imagen"
         />
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white shadow-xl rounded-lg p-10 flex flex-col w-[350px] md:w-[500px]">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-xl  p-10 flex flex-col w-[350px] md:w-[500px]"
+      >
         <h1 className="text-4xl font-semibold text-black mb-8 text-center">
           Regístrate
         </h1>
@@ -102,7 +108,7 @@ export function Register() {
             to="/Login"
             className="text-white  bg-black rounded-lg p-3 w-[130px] text-center"
           >
-            Iniciar Sesión
+            Iniciar sesión
           </Link>
         </div>
       </form>

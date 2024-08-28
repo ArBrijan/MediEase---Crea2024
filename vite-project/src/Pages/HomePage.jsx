@@ -4,10 +4,8 @@ import { Link } from 'react-router-dom';
 export function Home() {
   return (
     <>
-      <div className="w-screen h-screen flex flex-col justify-center relative">
-        <div
-          className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full"
-        >
+      <div className="w-screen h-screen flex flex-col justify-center relative bg-gradient-to-br from-blue-50 to-blue-200">
+        <div className="flex items-center justify-between p-[30px] absolute top-0 left-0 w-full">
           <img
             className="w-[170px]"
             src="./src/assets/newLogo2.png"
@@ -38,17 +36,18 @@ export function Home() {
             </Link>
           </div>
 
-          <Link className="bg-black text-white text-center p-3 rounded m-1 w-[232px]"
-            to="Info">
-            ¿Qué estás buscando?
-          </Link>
-
-          {/* Nuevo botón para doctores */}
           <Link
-            className="bg-black text-white p-3 rounded m-1 w-[232px] text-center"
+            className="bg-black text-white  p-3 m-1 w-[232px] text-center"
             to="DoctorLogin"
           >
             Inicio sesion doctores
+          </Link>
+
+          <Link
+            className="text-black text-center p-3 rounded m-1 w-[232px] underline"
+            to="Info"
+          >
+            ¿Quieres saber sobre nosotros?
           </Link>
         </div>
       </div>
